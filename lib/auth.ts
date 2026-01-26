@@ -1,7 +1,7 @@
 import { supabaseServer } from "./supabase"
 
 export async function getUser() {
-  const supabase = supabaseServer()
+  const supabase = await supabaseServer()
   const { data } = await supabase.auth.getUser()
   return data?.user ?? null
 }
