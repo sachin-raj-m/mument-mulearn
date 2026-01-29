@@ -1,23 +1,34 @@
-'use client';
-import React from 'react';
-import RoleGate from '../../../src/components/layout/RoleGate';
-import { Role } from '../../../src/types/user';
+import RoleGate from "@/components/layout/RoleGate"
+import { createClient } from "@/lib/supabase/server"
+import { UserProfile } from "@/types/user"
 
-const mockRole: Role[] = ['participant'];
+export default async function DashboardPage() {
+  const supabaseServer = createClient()
+  const {
+    data: { user },
+  } = await supabaseServer.auth.getUser()
 
-export default function DashboardPage() {
+  if (!user) return null
+
+  const { data: profile } = await supabaseServer
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single()
+
+  const role = (profile as UserProfile).role
+
   return (
-    <div>
+    <>
       <h1>Dashboard</h1>
-      <p>Welcome to your dashboard. Current role: {mockRole.join(', ')}</p>
 
-      <RoleGate role={mockRole} allow={['buddy', 'campus_coordinator', 'admin']}>
-        <button style={{display: 'block', marginTop: 12}}>Create Checkpoint</button>
+      <RoleGate role={role} allow={["buddy", "campus_coordinator", "admin"]}>
+        <button>Create Checkpoint</button>
       </RoleGate>
 
-      <RoleGate role={mockRole} allow={['qa_foreman', 'qa_watcher', 'admin']}>
-        <button style={{display: 'block', marginTop: 12}}>Feedback Inbox</button>
+      <RoleGate role={role} allow={["qa_foreman", "qa_watcher", "admin"]}>
+        <button>Feedback Inbox</button>
       </RoleGate>
-    </div>
-  );
+    </>
+  )
 }
