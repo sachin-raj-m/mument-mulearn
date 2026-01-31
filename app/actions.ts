@@ -59,3 +59,11 @@ export async function updateUserRoleAction(userId: string, newRole: Role) {
 
     revalidatePath("/admin")
 }
+
+import { updateFeedbackStatus } from "@/lib/feedback"
+
+export async function updateFeedbackStatusAction(id: string, status: string) {
+    await updateFeedbackStatus(id, status)
+    revalidatePath("/feedback/inbox")
+    revalidatePath("/feedback/my-feedback")
+}
