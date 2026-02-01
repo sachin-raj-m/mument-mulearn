@@ -1,14 +1,16 @@
 
 "use client"
 
-import { Menu, LogOut } from "lucide-react"
+import { Menu, LogOut, Flame } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ToastProvider"
 
 export default function DashboardHeader({
     onMenuClick,
+    streak = 0
 }: {
     onMenuClick: () => void
+    streak?: number
 }) {
     const router = useRouter()
     const { show } = useToast()
@@ -50,16 +52,25 @@ export default function DashboardHeader({
 
                 {/* Right: date + sign out */}
                 <div className="flex items-center gap-4">
-                  <p className="text-sm text-slate-400 hidden sm:block">
-                      {new Date().toLocaleDateString("en-US", {
-                          weekday: "long",
-                          month: "long",
-                          day: "numeric",
-                      })}
-                  </p>
-                  <button onClick={handleSignOut} className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900">
-                    <LogOut size={16} /> Sign out
-                  </button>
+
+                    {/* Streak Badge (High Visibility) */}
+                    {streak > 0 && (
+                        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-full shadow-lg animate-pulse hover:animate-none transition-all hover:scale-105 cursor-default" title="Maintain your streak!">
+                            <Flame size={20} className="fill-white animate-bounce" />
+                            <span className="font-black text-lg">{streak}</span>
+                        </div>
+                    )}
+
+                    <p className="text-sm text-slate-400 hidden sm:block">
+                        {new Date().toLocaleDateString("en-US", {
+                            weekday: "long",
+                            month: "long",
+                            day: "numeric",
+                        })}
+                    </p>
+                    <button onClick={handleSignOut} className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900">
+                        <LogOut size={16} /> Sign out
+                    </button>
                 </div>
             </div>
 
