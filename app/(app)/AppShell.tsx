@@ -8,9 +8,11 @@ import { Role } from "@/types/user"
 
 export default function AppShell({
     role,
+    streak,
     children,
 }: {
     role: Role
+    streak: number
     children: ReactNode
 }) {
     const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -38,7 +40,7 @@ export default function AppShell({
 
                 {/* Header */}
                 <div className="p-4 pb-0">
-                    <DashboardHeader onMenuClick={() => setSidebarOpen(true)} />
+                    <DashboardHeader streak={streak} onMenuClick={() => setSidebarOpen(true)} />
                 </div>
 
                 <main className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">

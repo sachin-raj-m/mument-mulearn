@@ -124,6 +124,7 @@ import { ReactNode } from "react"
 import { createClient } from "@/lib/supabase/server"
 import { UserProfile } from "@/types/user"
 import AppShell from "./AppShell"
+import { getUserStreak } from "@/lib/daily-updates"
 
 export default async function AppLayout({
   children,
@@ -144,9 +145,10 @@ export default async function AppLayout({
   if (error || !profile) redirect("/login")
 
   const typedProfile = profile as UserProfile
+  const streak = await getUserStreak(user.id)
 
   return (
-    <AppShell role={typedProfile.role}>
+    <AppShell role={typedProfile.role} streak={streak}>
       {children}
     </AppShell>
   )
