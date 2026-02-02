@@ -38,6 +38,26 @@ export async function createCheckpointAction(formData: FormData) {
     revalidatePath("/checkpoints")
 }
 
+export async function saveSubscriptionAction(sub: any) {
+    "use server"
+    const supabase = await createClient()
+    const user = await getMyProfile()
+    if (!user) return
+
+    // Parse the PushSubscriptionJSON
+    const p256dh = sub.keys?.p256dh
+    const auth = sub.keys?.auth
+
+    if (!p256dh || !auth) return
+
+    await supabase.from("push_subscriptions").upsert({
+        user_id: user.id,
+        endpoint: sub.endpoint,
+        p256dh,
+        auth
+    }, { onConflict: 'endpoint' })
+}
+
 import { getMyProfile } from "@/lib/profile"
 import { createClient } from "@/lib/supabase/server"
 import { Role } from "@/types/user"

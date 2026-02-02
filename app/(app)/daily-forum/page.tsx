@@ -44,10 +44,11 @@ async function DailyForumContent({ page = 1, sort = 'recent' }: { page?: number;
     );
 }
 
-export default function DailyForumPage({ searchParams }: { searchParams: { page?: string; sort?: string } }) {
+export default async function DailyForumPage(props: { searchParams: Promise<{ page?: string; sort?: string }> }) {
+    const searchParams = await props.searchParams;
     const page = parseInt(searchParams?.page || "1", 10);
     const sort = searchParams?.sort || 'recent';
-    
+
     return (
         <div>
             <header className="mb-6">
