@@ -95,7 +95,7 @@ export default function DailyForumFilter({ dailyUpdates, colleges, role, page = 
     // Handle loading state when page changes
     useEffect(() => {
         setIsLoading(false);
-    }, [urlPage, filteredUpdates.length]);
+    }, [urlPage, sort, college, date, keyword, filteredUpdates.length]);
 
     // Paginate filtered results
     const itemsPerPage = limit;
@@ -185,6 +185,20 @@ export default function DailyForumFilter({ dailyUpdates, colleges, role, page = 
         }
     };
 
+    const handlePrevClick = () => {
+        if (currentPage > 1) {
+            setIsLoading(true);
+            router.push(`?page=${currentPage - 1}&sort=${sort}`);
+        }
+    };
+
+    const handleNextClick = () => {
+        if (currentPage < totalPages) {
+            setIsLoading(true);
+            router.push(`?page=${currentPage + 1}&sort=${sort}`);
+        }
+    };
+
     return (
         <div>
             <FilterBar
@@ -245,10 +259,7 @@ export default function DailyForumFilter({ dailyUpdates, colleges, role, page = 
                         <div className="flex gap-2">
                             <button
                                 onClick={() => {
-                                    setIsLoading(true);
-                                    router.push(`?page=${Math.max(1, currentPage - 1)}&sort=${sort}`);
-                                    
-
+                                    handlePrevClick();
                                 }}
                                 disabled={currentPage === 1 || isLoading}
                                 className={`px-4 py-2 border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors`}
@@ -258,9 +269,7 @@ export default function DailyForumFilter({ dailyUpdates, colleges, role, page = 
                             <span className="px-4 py-2 text-slate-600">Page {currentPage}/{totalPages}</span>
                             <button
                                 onClick={() => {
-                                    setIsLoading(true);
-                                    router.push(`?page=${currentPage + 1}&sort=${sort}`);
-                                    
+                                    handleNextClick();
                                 }}
                                 disabled={currentPage >= totalPages || isLoading}
                                 className={`px-4 py-2 border border-slate-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors`}
