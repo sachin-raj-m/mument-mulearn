@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { Bell, Check, Trash2, BellOff, X } from "lucide-react"
-import { usePushSubscription } from "@/app/hooks/usePushSubscription"
+import { usePushSubscription } from "@/hooks/usePushSubscription"
 import { getNotificationsAction, markNotificationReadAction, markAllNotificationsReadAction } from "@/actions"
 import { useToast } from "@/components/ToastProvider"
 import { useRouter } from "next/navigation"

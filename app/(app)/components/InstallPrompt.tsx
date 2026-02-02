@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { usePushSubscription } from "@/app/hooks/usePushSubscription"
+import { usePushSubscription } from "@/hooks/usePushSubscription"
 import { Download, Bell, X } from "lucide-react"
 
 import { useToast } from "@/components/ToastProvider"

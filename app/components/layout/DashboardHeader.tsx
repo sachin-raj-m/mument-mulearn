@@ -3,7 +3,7 @@
 import { Menu, LogOut, Flame } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ToastProvider"
-import NotificationCenter from "@/app/(app)/components/NotificationCenter"
+import NotificationCenter from "@/(app)/components/NotificationCenter"
 
 export default function DashboardHeader({
     onMenuClick,

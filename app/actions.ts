@@ -277,38 +277,40 @@ export async function postFeedbackReplyAction(feedbackId: string, message: strin
 export async function toggleFeedbackReactionAction(targetId: string, targetType: 'feedback' | 'reply', emoji: string) {
     await toggleReaction(targetId, targetType, emoji)
     revalidatePath("/feedback/inbox/[id]", 'page')
+    revalidatePath("/feedback/my-feedback/[id]", 'page')
+}
 
-    export async function getNotificationsAction() {
-        const supabase = await createClient()
-        const { data } = await supabase
-            .from('notifications')
-            .select('*')
-            .order('created_at', { ascending: false })
-            .limit(20)
+export async function getNotificationsAction() {
+    const supabase = await createClient()
+    const { data } = await supabase
+        .from('notifications')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(20)
 
-        return data || []
-    }
+    return data || []
+}
 
-    export async function markNotificationReadAction(id: string) {
-        const supabase = await createClient()
-        await supabase
-            .from('notifications')
-            .update({ is_read: true })
-            .eq('id', id)
+export async function markNotificationReadAction(id: string) {
+    const supabase = await createClient()
+    await supabase
+        .from('notifications')
+        .update({ is_read: true })
+        .eq('id', id)
 
-        revalidatePath('/dashboard')
-    }
+    revalidatePath('/dashboard')
+}
 
-    export async function markAllNotificationsReadAction() {
-        const supabase = await createClient()
-        const user = await getMyProfile()
-        if (!user) return
+export async function markAllNotificationsReadAction() {
+    const supabase = await createClient()
+    const user = await getMyProfile()
+    if (!user) return
 
-        await supabase
-            .from('notifications')
-            .update({ is_read: true })
-            .eq('user_id', user.id)
-            .eq('is_read', false)
+    await supabase
+        .from('notifications')
+        .update({ is_read: true })
+        .eq('user_id', user.id)
+        .eq('is_read', false)
 
-        revalidatePath('/dashboard')
-    }
+    revalidatePath('/dashboard')
+}
