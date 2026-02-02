@@ -13,9 +13,8 @@ export default function InboxFeedbackItem({ f, currentUserId }: { f: FeedbackVie
     const handleReaction = async (targetId: string, type: 'feedback' | 'reply', emoji: string) => {
         try {
             await toggleFeedbackReactionAction(targetId, type, emoji)
-            // Expect revalidatePath to update UI
         } catch (error) {
-            console.error("Reaction failed", error)
+            console.error("Failed to react:", error)
         }
     }
 
